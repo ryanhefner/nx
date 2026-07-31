@@ -4,6 +4,7 @@ import { ensureTypescript } from './ensure-typescript';
 import { Node, SyntaxKind } from 'typescript';
 import { workspaceRoot } from '@nx/devkit';
 import { dirname } from 'path';
+import { assertCompatibleTypeScript } from 'nx/src/utils/typescript-version';
 import { getSourceNodes } from './get-source-nodes';
 
 const normalizedAppRoot = workspaceRoot.replace(/\\/g, '/');
@@ -59,6 +60,7 @@ function getCompilerHost(tsConfigPath: string) {
 function readTsConfigOptions(tsConfigPath: string) {
   if (!tsModule) {
     tsModule = require('typescript');
+    assertCompatibleTypeScript(tsModule);
   }
 
   const readResult = tsModule.readConfigFile(

@@ -7,6 +7,7 @@ import {
 } from '@nx/devkit';
 import { existsSync, readFileSync, statSync } from 'fs';
 import { dirname, isAbsolute, join, relative, resolve, sep } from 'path';
+import { assertCompatibleTypeScript } from 'nx/src/utils/typescript-version';
 import type * as ts from 'typescript';
 import { ensureTypescript } from './ensure-typescript';
 
@@ -18,6 +19,7 @@ export function readTsConfig(
 ): ts.ParsedCommandLine {
   if (!tsModule) {
     tsModule = require('typescript');
+    assertCompatibleTypeScript(tsModule);
   }
 
   sys ??= tsModule.sys;

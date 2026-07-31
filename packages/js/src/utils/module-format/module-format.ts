@@ -1,3 +1,4 @@
+import { assertCompatibleTypeScript } from 'nx/src/utils/typescript-version';
 import type * as ts from 'typescript';
 
 export type ModuleFormat = 'cjs' | 'esm';
@@ -31,7 +32,8 @@ export function getTsConfigModuleFormat(
   // @nx/js/internal -> is-esm-project) doesn't fail in workspaces that
   // haven't installed typescript yet (fresh CNW projects before a
   // generator adds it).
-  const tsMod = require('typescript') as typeof ts;
+  const tsMod: unknown = require('typescript');
+  assertCompatibleTypeScript(tsMod);
   if (m === tsMod.ModuleKind.NodeNext || m === tsMod.ModuleKind.Node16)
     return null;
   if (

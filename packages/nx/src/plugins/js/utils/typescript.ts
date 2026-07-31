@@ -3,6 +3,7 @@ import { existsSync } from 'fs';
 import { dirname, join } from 'path';
 import type * as ts from 'typescript';
 import type { Node, SyntaxKind } from 'typescript';
+import { loadTypeScript } from '../../../utils/typescript-version';
 
 const normalizedAppRoot = workspaceRoot.replace(/\\/g, '/');
 
@@ -13,7 +14,7 @@ export function readTsConfig(
   sys?: ts.System
 ): ts.ParsedCommandLine {
   if (!tsModule) {
-    tsModule = require('typescript');
+    tsModule = loadTypeScript();
   }
 
   sys ??= tsModule.sys;
@@ -30,7 +31,7 @@ export function readTsConfigWithoutFiles(
   tsConfigPath: string
 ): ts.ParsedCommandLine {
   if (!tsModule) {
-    tsModule = require('typescript');
+    tsModule = loadTypeScript();
   }
 
   // We only care about options, so we don't need to scan source files, and thus

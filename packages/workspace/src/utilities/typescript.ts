@@ -1,5 +1,6 @@
 import { ensurePackage, workspaceRoot } from '@nx/devkit';
 import { dirname } from 'path';
+import { assertCompatibleTypeScript } from 'nx/src/utils/typescript-version';
 import type * as ts from 'typescript';
 import { typescriptVersion } from '../utils/versions';
 export { getSourceNodes } from './typescript/get-source-nodes';
@@ -79,10 +80,12 @@ function getCompilerHost(tsConfigPath: string) {
 }
 
 export function ensureTypescript() {
-  return ensurePackage<typeof import('typescript')>(
+  const tsModule = ensurePackage<typeof import('typescript')>(
     'typescript',
     typescriptVersion
   );
+  assertCompatibleTypeScript(tsModule);
+  return tsModule;
 }
 
 import {
